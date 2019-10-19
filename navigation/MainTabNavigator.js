@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import CameraScreen from '../screens/CameraScreen';
+import ListOfItemScreen from '../screens/ListOfItemScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -46,7 +47,7 @@ const CameraStack = createStackNavigator(
 CameraStack.navigationOptions = {
   tabBarLabel: 'Camera',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'camera' : 'md-link'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-camera' : 'md-link'} />
   ),
 };
 
@@ -68,25 +69,26 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
-// const PhotoScreenStack = createStackNavigator(
-//   {
-//     PhotoInformation: PhotoInformationScreen,
-//   },
-//   config
-// );
+const ListOfItemScreenStack = createStackNavigator(
+  {
+    ListOfItem: ListOfItemScreen,
+  },
+  config
+);
 
-// PhotoScreenStack.navigationOptions = {
-//   tabBarLabel: 'PhotoInformation',
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
-//   ),
-// };
+ListOfItemScreenStack.navigationOptions = {
+  tabBarLabel: 'ListItems',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+  ),
+};
 
-// PhotoScreenStack.path = '';
+ListOfItemScreenStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  CameraStack
+  CameraStack,
+  ListOfItemScreenStack
 });
 
 tabNavigator.path = '';
