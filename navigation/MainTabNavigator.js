@@ -68,6 +68,22 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
+// const PhotoScreenStack = createStackNavigator(
+//   {
+//     PhotoInformation: PhotoInformationScreen,
+//   },
+//   config
+// );
+
+// PhotoScreenStack.navigationOptions = {
+//   tabBarLabel: 'PhotoInformation',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+//   ),
+// };
+
+// PhotoScreenStack.path = '';
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   CameraStack
