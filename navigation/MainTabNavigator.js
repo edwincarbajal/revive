@@ -46,7 +46,7 @@ const CameraStack = createStackNavigator(
 CameraStack.navigationOptions = {
   tabBarLabel: 'Camera',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'camera' : 'md-link'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-camera' : 'md-camera'} />
   ),
 };
 
