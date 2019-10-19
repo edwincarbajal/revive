@@ -3,7 +3,8 @@ import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+
+import { Container, Header, Content, Footer, FooterTab, Button, Icon, Text, Badge } from 'native-base';
 
 import AppNavigator from './navigation/AppNavigator';
 
@@ -20,10 +21,30 @@ export default function App(props) {
     );
   } else {
     return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
-      </View>
+      // <View style={styles.container}>
+      //   {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+      //   <AppNavigator />
+      // </View>
+      <Container>
+        <Header />
+        <Content />
+        <Footer>
+          <FooterTab>
+            <Button vertical>
+              <Icon name="home" />
+              <Text>Home</Text>
+            </Button>
+            <Button vertical>
+              <Icon name="camera" />
+              <Text>Camera</Text>
+            </Button>
+            <Button vertical>
+              <Icon name="person" />
+              <Text>Settings</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      </Container>
     );
   }
 }
