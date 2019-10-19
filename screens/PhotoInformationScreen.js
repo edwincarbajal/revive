@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, FlatList, ScrollView } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Title } from 'native-base';
+import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Left, Body, Right, Title, Icon } from 'native-base';
 import { ExpoLinksView } from '@expo/samples';
 import PhotoInfo from '../components/PhotoInfo';
 const data = require("../DummyData/imgmetadata");
@@ -16,8 +16,14 @@ export default function PhotoInformationScreen() {
                     <CardItem>
                         <Left>
                             <Button transparent>
-                                <Icon active name="thumbs-up" />
+                                <Icon name="cross" type="Entypo"/>
                                 <Text>Retake</Text>
+                            </Button>
+                        </Left>
+                        <Left>
+                            <Button transparent>
+                                <Icon name="camera" />
+                                <Text>Add more</Text>
                             </Button>
                         </Left>
                     </CardItem>
