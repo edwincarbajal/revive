@@ -26,6 +26,12 @@ export default function PhotoInformationScreen() {
                                 <Text>Add more</Text>
                             </Button>
                         </Left>
+                        <Left>
+                            <Button transparent>
+                                <Icon name="check" type="Entypo"/>
+                                <Text>Next </Text>
+                            </Button>
+                        </Left>
                     </CardItem>
                 </Card>
 

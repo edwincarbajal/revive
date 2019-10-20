@@ -38,7 +38,7 @@ HomeStack.path = '';
 
 const CameraStack = createStackNavigator(
   {
-    Links: CameraScreen,
+    Camera: CameraScreen,
   },
   config
 );
@@ -46,7 +46,7 @@ const CameraStack = createStackNavigator(
 CameraStack.navigationOptions = {
   tabBarLabel: 'Camera',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'camera' : 'md-link'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-camera' : 'md-camera'} />
   ),
 };
 
@@ -68,21 +68,6 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
-// const PhotoScreenStack = createStackNavigator(
-//   {
-//     PhotoInformation: PhotoInformationScreen,
-//   },
-//   config
-// );
-
-// PhotoScreenStack.navigationOptions = {
-//   tabBarLabel: 'PhotoInformation',
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
-//   ),
-// };
-
-// PhotoScreenStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
