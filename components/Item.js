@@ -1,16 +1,16 @@
 import React from 'react';
-import { Card, CardItem, Thumbnail, Text, Right, Icon } from 'native-base';
+import { Card, CardItem, Thumbnail, Text, Right, Icon, Left } from 'native-base';
+import images from "../DummyData/images";
 
 const Item = (props) => {
-    let photo = props.photo
-    let photo_test = require(photo);
     return (
         <Card>
             <CardItem>
-                <Thumbnail source={() => require(photo)} />
-                <Text>{props.name}</Text>
+                <Left><Thumbnail source={images[props.photo]} /></Left>
+                <Left><Text>{props.name}</Text></Left>
                 <Right>
                     <Icon name="arrow-forward" />
+                    <Text>Edit</Text>
                 </Right>
             </CardItem>
         </Card>

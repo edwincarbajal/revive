@@ -1,22 +1,27 @@
-// import React, { Component } from 'react';
-// import { Container, Header, Content, Card, CardItem, Text, Icon, Right, Thumbnail } from 'native-base';
-// import MyItem from "../components/Item";
+import React, { Component } from 'react';
+import { Container, Header, Content, Card, CardItem, Text, Icon, Right, Thumbnail } from 'native-base';
+import MyItem from "../components/Item";
 
 
-// export default function ListOfItemScreen(props) {
-//     const items = [{photo: "../DummyData/img_5d5c5e467fe0f.jpg", item: "Item 1"}]
-//     return (
-//       <Container>
-//         <Header />
-//         <Content>
-//           {items.map((i) => {
-//             return <MyItem photo={i.photo} name={i.item} />
-//           })}
-//         </Content>
-//       </Container>
-//     );
-// }
+export default function ListOfItemScreen(props) {
+    const items = [
+        {photo: "img1", item: "Item 1"},
+        {photo: "img2", item: "Item 2"},
+        {photo: "img3", item: "Item 3"}]
+    return (
+      <Container>
+        <Header />
+        <Content>
+          {items.map((i) => {
+              //let photo = require(i.photo);
+            return <MyItem photo={i.photo} name={i.item} key={i.photo} />
+          })}
 
-// ListOfItemScreen.navigationOptions = {
-//   title: 'List of Items',
-// };
+        </Content>
+      </Container>
+    );
+}
+
+ListOfItemScreen.navigationOptions = {
+  title: 'List of Items',
+};

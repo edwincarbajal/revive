@@ -11,7 +11,7 @@ export default function PhotoInformationScreen() {
             <Content>
                 <Card>
                     <CardItem cardBody>
-                        <Image source={require('../DummyData/img_5d5c5e467fe0f.jpg')} style={{ height: 200, width: null, flex: 1 }} />
+                        <Image source={require('../DummyData/img1.jpg')} style={{ height: 200, width: null, flex: 1 }} />
                     </CardItem>
                     <CardItem>
                         <Left>
