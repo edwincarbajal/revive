@@ -1,124 +1,98 @@
-import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import * as Permissions from 'expo-permissions';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Camera } from 'expo-camera';
-import * as FileSystem from 'expo-file-system';
-import { RNCamera } from 'react-native-camera';
+import * as Permissions from 'expo-permissions';
+const { width: winWidth, height: winHeight } = Dimensions.get('window');
 
-import {
-  Ionicons,
-  MaterialIcons,
-  Foundation,
-  MaterialCommunityIcons,
-  Octicons
-} from '@expo/vector-icons';
+import Toolbar from '../components/toolbar';
+import Gallery from '../components/gallery';
+
 
 export default class CameraScreen extends React.Component {
+  camera = null;
+
   state = {
+    captures: [],
+    // setting flash to be turned off by default
+    flashMode: Camera.Constants.FlashMode.off,
+    capturing: null,
+    // start the back camera by default
+    cameraType: Camera.Constants.Type.back,
     hasCameraPermission: null,
-    type: Camera.Constants.Type.back,
-    newPhotos: false
   };
 
-  async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
-  }
+  setFlashMode = (flashMode) => this.setState({ flashMode });
+  setCameraType = (cameraType) => this.setState({ cameraType });
+  handleCaptureIn = () => this.setState({ capturing: true });
 
-  componentDidMount() {
-    console.log(FileSystem.readDirectoryAsync(`${FileSystem.documentDirectory}newphotos`));
-    FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'newphotos').catch(e => {
-      console.log(e, 'Directory exists');
-    });
-  }
-
-  takePicture = () => {
-    if (this.camera) {
-      this.camera.takePictureAsync({ onPictureSaved: this.onPictureSaved });
-    }
+  handleCaptureOut = () => {
+    if (this.state.capturing)
+      this.camera.stopRecording();
   };
 
-  onPictureSaved = async photo => {
-    await FileSystem.moveAsync({
-      from: photo.uri,
-      to: `${FileSystem.documentDirectory}newphotos/${Date.now()}.jpg`,
-    });
-    this.setState({ newPhotos: true });
-    console.log(FileSystem.readDirectoryAsync(`${FileSystem.documentDirectory}newphotos`));
-  }
+  handleShortCapture = async () => {
+    const photoData = await this.camera.takePictureAsync();
+    this.setState({ capturing: false, captures: [photoData, ...this.state.captures] });
+    console.log(this.state.captures);
+  };
 
-  renderBottomBar = () =>
-     <View
-       style={styles.bottomBar}>
-       <View style={{ flex: 0.4 }}>
-         <TouchableOpacity
-           onPress={this.takePicture}
-           style={{ alignSelf: 'center' }}
-         >
-           <Ionicons name="ios-radio-button-on" size={70} color="white" />
-         </TouchableOpacity>
-       </View>
-     </View>
+  handleLongCapture = async () => {
+    const videoData = await this.camera.recordAsync();
+    this.setState({ capturing: false, captures: [videoData, ...this.state.captures] });
+  };
+
+  async componentDidMount() {
+    const camera = await Permissions.askAsync(Permissions.CAMERA);
+    const audio = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+    const hasCameraPermission = (camera.status === 'granted' && audio.status === 'granted');
+
+    this.setState({ hasCameraPermission });
+  };
 
   render() {
-    const { hasCameraPermission } = this.state;
+    const { hasCameraPermission, flashMode, cameraType, capturing, captures } = this.state;
+
     if (hasCameraPermission === null) {
       return <View />;
     } else if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
-    } else {
-      return (
-        <View style={{ flex: 1 }}>
-          <Camera
-            ref={ref => {
-              this.camera = ref;
-            }}
-            style={{ flex: 1 }}
-            type={this.state.type}>
-            {this.renderBottomBar()}
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: 'transparent',
-                flexDirection: 'row',
-              }}>
-              <TouchableOpacity
-                style={{
-                  flex: 0.1,
-                  alignSelf: 'flex-end',
-                  alignItems: 'center',
-                }}
-                onPress={() => {
-                  this.setState({
-                    type:
-                      this.state.type === Camera.Constants.Type.back
-                        ? Camera.Constants.Type.front
-                        : Camera.Constants.Type.back,
-                  });
-                }}>
-                <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
-              </TouchableOpacity>
-            </View>
-          </Camera>
-        </View>
-      );
+      return <Text>Access to camera has been denied.</Text>;
     }
-  }
-}
+
+    return (
+      <React.Fragment>
+        <View>
+          <Camera
+            type={cameraType}
+            flashMode={flashMode}
+            style={styles.preview}
+            ref={camera => this.camera = camera}
+          />
+        </View>
+        {captures.length > 0 && <Gallery captures={captures}/>}
+        <Toolbar
+          capturing={capturing}
+          flashMode={flashMode}
+          cameraType={cameraType}
+          setFlashMode={this.setFlashMode}
+          setCameraType={this.setCameraType}
+          onCaptureIn={this.handleCaptureIn}
+          onCaptureOut={this.handleCaptureOut}
+          onLongCapture={this.handleLongCapture}
+          onShortCapture={this.handleShortCapture}
+        />
+      </React.Fragment>
+    );
+  };
+};
 
 const styles = StyleSheet.create({
-  bottomButton: {
-    flex: 0.3,
-    height: 58,
-    justifyContent: 'center',
-    alignItems: 'center',
+  preview: {
+    height: winHeight,
+    width: winWidth,
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
   },
-  bottomBar: {
-    backgroundColor: 'transparent',
-    alignSelf: 'flex-end',
-    justifyContent: 'space-between',
-    flex: 0.12,
-    flexDirection: 'row',
-  }
 });
