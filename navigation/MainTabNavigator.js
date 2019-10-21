@@ -8,6 +8,7 @@ import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import CameraScreen from '../screens/CameraScreen';
 import ListOfItemScreen from '../screens/ListOfItemScreen';
+import PhotoInformationScreen from '../screens/PhotoInformationScreen';
 
 
 const config = Platform.select({
@@ -28,9 +29,7 @@ HomeStack.navigationOptions = {
     <TabBarIcon
       focused={focused}
       name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+        "ios-home"
       }
     />
   ),
@@ -64,11 +63,33 @@ const ListOfItemStack = createStackNavigator(
 ListOfItemStack.navigationOptions = {
   tabBarLabel: 'ListOfItem',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-camera' : 'md-camera'} />
+    <TabBarIcon focused={focused} name={"ios-list"}/>
   ),
 };
 
 ListOfItemStack.path = '';
+
+const PhotoInformationStack = createStackNavigator(
+  {
+    PhotoInformation: PhotoInformationScreen,
+  },
+  config
+);
+
+PhotoInformationStack.navigationOptions = {
+  tabBarLabel: 'TakenPhoto',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        "ios-checkbox-outline"
+      }
+    />
+  ),
+};
+
+PhotoInformationStack.path = '';
+
 
 const SettingsStack = createStackNavigator(
   {
@@ -86,10 +107,27 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
+// const SettingsStack = createStackNavigator(
+//   {
+//     Settings: SettingsScreen,
+//   },
+//   config
+// );
+
+// SettingsStack.navigationOptions = {
+//   tabBarLabel: 'Settings',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+//   ),
+// };
+
+// SettingsStack.path = '';
+
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   CameraStack,
+  PhotoInformationStack,
   ListOfItemStack
 });
 

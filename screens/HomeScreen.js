@@ -23,7 +23,7 @@ export default function HomeScreen() {
     //   <Text>This is Home page</Text>
     // </View>
     <ImageBackground source={{uri: 'https://media.giphy.com/media/Zx1ZEctOOvxK5VCwwE/giphy.gif'}} style={{width: '100%', height: '100%'}}>
-    <Text>Use Me!!</Text>
+    <Text style={{fontSize: 88, fontWeight: "bold", fontFamily: "Arial-BoldItalicMT", textAlign: 'center'}}>ReViVe</Text>
 
   </ImageBackground>
   );
